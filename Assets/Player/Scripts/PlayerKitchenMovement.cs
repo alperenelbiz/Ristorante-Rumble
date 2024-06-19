@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PlayerMovement : NetworkBehaviour
+public class PlayerKitchenMovement : NetworkBehaviour
 {
     [SerializeField] private float movementSpeed;
     private Rigidbody rb;
@@ -31,13 +31,20 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     private void GetInput()
-    {
-        input.x = Input.GetAxis("Horizontal");
-        input.z = Input.GetAxis("Vertical");
+    { 
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveZ = Input.GetAxisRaw("Vertical");
+
+        input = new Vector3(moveX, 0f, moveZ).normalized;
     }
     private void MovePlayer()
     {
-        rb.velocity = transform.forward * input.z * movementSpeed +
-           transform.right * input.x * movementSpeed;
+        rb.MovePosition(rb.position + input * movementSpeed * Time.fixedDeltaTime);
+
+        if (input != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(input);
+            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * 10f);
+        }
     }
 }
