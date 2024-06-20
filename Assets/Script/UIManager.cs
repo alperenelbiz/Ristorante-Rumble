@@ -1,34 +1,38 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject openPanelButton;
-    public GameObject panel;
-    public GameObject closePanelButton;
+    public GameObject ovenMenu;
 
-    void Start()
+    private void Update()
     {
-       
-        panel.SetActive(false);
-        closePanelButton.SetActive(false);
-
-        
-        openPanelButton.GetComponent<Button>().onClick.AddListener(OpenPanel);
-        closePanelButton.GetComponent<Button>().onClick.AddListener(ClosePanel);
+        if (Input.GetMouseButtonDown(0))
+        {
+            OpenOvenMenu();
+        }
     }
 
-    void OpenPanel()
+    public void CloseOvenMenu()
     {
-        panel.SetActive(true);
-        closePanelButton.SetActive(true);
-        openPanelButton.SetActive(false);
+        ovenMenu.SetActive(false);
     }
 
-    void ClosePanel()
+    void OpenOvenMenu()
     {
-        panel.SetActive(false);
-        closePanelButton.SetActive(false);
-        openPanelButton.SetActive(true);
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit) &&
+            hit.collider.gameObject.CompareTag("Oven"))
+        {
+            ovenMenu.SetActive(true);
+            ovenMenu.transform.position = Input.mousePosition;
+        }
     }
 }
