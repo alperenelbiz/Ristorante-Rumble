@@ -5498,7 +5498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16b54177d641ad4d972b7144cc50a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ovenMenu: {fileID: 8104050483111157104, guid: 6a69b36d3fe86f040ad760cabbc878ab, type: 3}
+  ovenMenu: {fileID: 8693078759659001422}
   mealListContainer: {fileID: 1503564178}
   mealButtonPrefab: {fileID: 8497568745914098782, guid: 928cbacfc051b384c980b278b6e5e3ec, type: 3}
 --- !u!1 &3039985697617292410
@@ -5622,6 +5622,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &8693078759659001422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8104050483111157104, guid: 6a69b36d3fe86f040ad760cabbc878ab, type: 3}
+  m_PrefabInstance: {fileID: 635953028110453566}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8693078759659001423 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8104050483111157105, guid: 6a69b36d3fe86f040ad760cabbc878ab, type: 3}

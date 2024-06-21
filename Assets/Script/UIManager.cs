@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public GameObject ovenMenu;
     public Transform mealListContainer;
     public GameObject mealButtonPrefab;
+  
+    private Oven currentOven;
 
     private void Update()
     {
@@ -36,12 +38,12 @@ public class UIManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit) &&
             hit.collider.gameObject.CompareTag("Oven"))
         {
-            ovenMenu.SetActive(true);
-            ovenMenu.transform.position = Input.mousePosition;
-
             Oven oven = hit.collider.GetComponent<Oven>();
-            if (oven != null)
+            if (oven != null && !oven.IsCooking())
             {
+                currentOven = oven;
+                ovenMenu.SetActive(true);
+                ovenMenu.transform.position = Input.mousePosition;
                 PopulateMealList(oven.GetAvailableMeals());
             }
         }
@@ -69,6 +71,10 @@ public class UIManager : MonoBehaviour
 
     void OnMealSelected(Meal meal)
     {
-        Debug.Log("Selected meal: " + meal.mealName);
+        if (currentOven != null)
+        {
+            currentOven.StartCooking(meal);
+            CloseOvenMenu();
+        }
     }
 }
