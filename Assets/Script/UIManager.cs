@@ -2,10 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
     public GameObject ovenMenu;
+    public Transform mealListContainer;
+    public GameObject mealButtonPrefab;
 
     private void Update()
     {
@@ -18,6 +22,7 @@ public class UIManager : MonoBehaviour
     public void CloseOvenMenu()
     {
         ovenMenu.SetActive(false);
+        ClearMealList();
     }
 
     void OpenOvenMenu()
@@ -33,6 +38,37 @@ public class UIManager : MonoBehaviour
         {
             ovenMenu.SetActive(true);
             ovenMenu.transform.position = Input.mousePosition;
+
+            Oven oven = hit.collider.GetComponent<Oven>();
+            if (oven != null)
+            {
+                PopulateMealList(oven.GetAvailableMeals());
+            }
         }
+    }
+
+    void PopulateMealList(List<Meal> meals)
+    {
+        foreach (Meal meal in meals)
+        {
+            GameObject mealButton = Instantiate(mealButtonPrefab, mealListContainer);
+            mealButton.GetComponentInChildren<TextMeshProUGUI>().text = meal.mealName;
+
+            Button button = mealButton.GetComponent<Button>();
+            button.onClick.AddListener(() => OnMealSelected(meal));
+        }
+    }
+
+    void ClearMealList()
+    {
+        foreach (Transform child in mealListContainer)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    void OnMealSelected(Meal meal)
+    {
+        Debug.Log("Selected meal: " + meal.mealName);
     }
 }
