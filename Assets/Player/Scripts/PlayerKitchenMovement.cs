@@ -83,8 +83,13 @@ public class PlayerKitchenMovement : NetworkBehaviour
     [Command]
     private void CmdGrabItem()
     {
+        Vector3 startPoint = transform.position + Vector3.up * 1.5f;
+
+        float radius = 0.5f;
+        float distance = 2f;
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.SphereCast(startPoint, radius, transform.forward, out hit, distance))
         {
             foreach (var pair in itemPlacePairs)
             {
@@ -96,6 +101,7 @@ public class PlayerKitchenMovement : NetworkBehaviour
             }
         }
     }
+
 
     [Command]
     private void CmdPlaceItem()
@@ -134,8 +140,13 @@ public class PlayerKitchenMovement : NetworkBehaviour
 
     private void HandleHighlighting()
     {
+        Vector3 startPoint = transform.position + Vector3.up * 1.5f;
+
+        float radius = 0.5f;
+        float distance = 2f;
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f))
+        if (Physics.SphereCast(startPoint, radius, transform.forward, out hit, distance))
         {
             foreach (var pair in itemPlacePairs)
             {
@@ -149,8 +160,9 @@ public class PlayerKitchenMovement : NetworkBehaviour
         ClearHighlight();
     }
 
+
     private void HighlightObject(GameObject obj)
-    {
+    {   
         if (highlightedObject != obj)
         {
             ClearHighlight();
