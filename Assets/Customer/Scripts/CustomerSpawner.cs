@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CustomerSpawner : MonoBehaviour
 {
@@ -9,8 +10,7 @@ public class CustomerSpawner : MonoBehaviour
 
     private void Start()
     {
-       
-
+      
         StartCoroutine(SpawnCustomers());
     }
 
@@ -25,7 +25,7 @@ public class CustomerSpawner : MonoBehaviour
             }
             else
             {
-                Debug.Log("doldu");
+                Debug.Log("All chairs are occupied. Stopping customer spawn.");
                 break;
             }
         }
@@ -33,8 +33,7 @@ public class CustomerSpawner : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        Restaurant selectedRestaurant = restaurants[Random.Range(0, restaurants.Length)];
-        Chair emptyChair = selectedRestaurant.GetEmptyChair();
+        Chair emptyChair = GetRandomEmptyChair();
 
         if (emptyChair != null)
         {
@@ -43,11 +42,11 @@ public class CustomerSpawner : MonoBehaviour
             customer.GetComponent<Customer>().MoveTo(emptyChair);
             emptyChair.IsOccupied = true;
 
-            Debug.Log("müþteri þuna gidiyor: " + emptyChair.name);
+            Debug.Log("Customer spawned and moving to chair: " + emptyChair.name);
         }
         else
         {
-            Debug.Log("sandalye kalmadý");
+            Debug.Log("No empty chairs available.");
         }
     }
 
@@ -61,5 +60,27 @@ public class CustomerSpawner : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private Chair GetRandomEmptyChair()
+    {
+        List<Chair> emptyChairs = new List<Chair>();
+
+        foreach (Restaurant restaurant in restaurants)
+        {
+            foreach (Chair chair in restaurant.chairs)
+            {
+                if (!chair.IsOccupied)
+                {
+                    emptyChairs.Add(chair);
+                }
+            }
+        }
+
+        if (emptyChairs.Count > 0)
+        {
+            return emptyChairs[Random.Range(0, emptyChairs.Count)];
+        }
+        return null;
     }
 }

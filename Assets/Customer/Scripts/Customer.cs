@@ -9,7 +9,10 @@ public class Customer : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        
+        if (agent == null)
+        {
+            Debug.LogError("NavMeshAgent component is missing on customer prefab.");
+        }
     }
 
     public void MoveTo(Chair chair)
@@ -19,7 +22,10 @@ public class Customer : MonoBehaviour
         {
             agent.SetDestination(chair.transform.position);
         }
-       
+        else
+        {
+            Debug.LogError("NavMeshAgent component is not initialized.");
+        }
     }
 
     private void Update()
@@ -34,6 +40,6 @@ public class Customer : MonoBehaviour
     {
         transform.position = targetChair.transform.position;
         transform.rotation = targetChair.transform.rotation;
-        
+        // Additional logic to animate or show customer sitting down
     }
 }
