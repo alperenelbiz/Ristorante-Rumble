@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Oven
+  - Meal
+  - Table
+  - Money
+  - Case
+  - Ingredient
+  - Freezer
   layers:
   - Default
   - TransparentFX
