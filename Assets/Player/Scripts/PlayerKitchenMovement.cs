@@ -67,7 +67,7 @@ public class PlayerKitchenMovement : NetworkBehaviour
 
     private void HandleItemInteraction()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if (heldItem == null)
             {
