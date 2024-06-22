@@ -7,10 +7,16 @@ public class CustomerSpawner : MonoBehaviour
     public GameObject customerPrefab;
     public Restaurant[] restaurants;
     public Transform[] spawnPoints;
+    private bool stopSpawning = false;
 
     private void Start()
     {
-      
+        if (customerPrefab == null || restaurants.Length == 0 || spawnPoints.Length == 0)
+        {
+            Debug.LogError("Missing references in CustomerSpawner script!");
+            return;
+        }
+
         StartCoroutine(SpawnCustomers());
     }
 
@@ -19,14 +25,25 @@ public class CustomerSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(1f, 5f));
-            if (AnyEmptyChairs())
+            if (!stopSpawning)
             {
-                SpawnCustomer();
+                if (AnyEmptyChairs())
+                {
+                    SpawnCustomer();
+                }
+                else
+                {
+                    Debug.Log("All chairs are occupied.");
+                    stopSpawning = true;
+                }
             }
             else
             {
-                Debug.Log("All chairs are occupied. Stopping customer spawn.");
-                break;
+                // Check again if any chairs are free
+                if (AnyEmptyChairs())
+                {
+                    stopSpawning = false;
+                }
             }
         }
     }
@@ -39,7 +56,7 @@ public class CustomerSpawner : MonoBehaviour
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject customer = Instantiate(customerPrefab, spawnPoint.position, Quaternion.identity);
-            customer.GetComponent<Customer>().MoveTo(emptyChair);
+            customer.GetComponent<Customer>().MoveTo(emptyChair, spawnPoint);
             emptyChair.IsOccupied = true;
 
             Debug.Log("Customer spawned and moving to chair: " + emptyChair.name);
