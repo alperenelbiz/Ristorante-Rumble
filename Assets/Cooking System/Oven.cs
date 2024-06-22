@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Oven : MonoBehaviour
+public class Oven : NetworkBehaviour
 {
     public List<Meal> availableMeals;
     private bool isCooking = false;
@@ -19,6 +20,7 @@ public class Oven : MonoBehaviour
         return isCooking;
     }
 
+    [Server]
     public void StartCooking(Meal meal)
     {
         if (isCooking) return;
@@ -30,6 +32,7 @@ public class Oven : MonoBehaviour
         StartCoroutine(CookMeal());
     }
 
+    [Server]
     private IEnumerator CookMeal()
     {
         while (cookingTimer > 0)
@@ -41,10 +44,14 @@ public class Oven : MonoBehaviour
         FinishCooking();
     }
 
+    [Server]
     private void FinishCooking()
     {
         isCooking = false;
-        Instantiate(currentMeal.mealPrefab, transform.position + Vector3.up, Quaternion.identity);
+
+        GameObject cookedMeal = Instantiate(currentMeal.mealPrefab, transform.position + Vector3.up, Quaternion.identity);
+        NetworkServer.Spawn(cookedMeal);
+
         currentMeal = null;
     }
 }
