@@ -56,7 +56,8 @@ public class CustomerSpawner : MonoBehaviour
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject customer = Instantiate(customerPrefab, spawnPoint.position, Quaternion.identity);
-            customer.GetComponent<Customer>().MoveTo(emptyChair, spawnPoint);
+            Restaurant restaurant = FindRestaurantWithChair(emptyChair);
+            customer.GetComponent<Customer>().MoveTo(emptyChair, spawnPoint, restaurant);
             emptyChair.IsOccupied = true;
 
             Debug.Log("Customer spawned and moving to chair: " + emptyChair.name);
@@ -97,6 +98,21 @@ public class CustomerSpawner : MonoBehaviour
         if (emptyChairs.Count > 0)
         {
             return emptyChairs[Random.Range(0, emptyChairs.Count)];
+        }
+        return null;
+    }
+
+    private Restaurant FindRestaurantWithChair(Chair chair)
+    {
+        foreach (Restaurant restaurant in restaurants)
+        {
+            foreach (Chair restChair in restaurant.chairs)
+            {
+                if (restChair == chair)
+                {
+                    return restaurant;
+                }
+            }
         }
         return null;
     }
