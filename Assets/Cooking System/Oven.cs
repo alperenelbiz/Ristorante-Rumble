@@ -1,7 +1,7 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
 public class Oven : NetworkBehaviour
 {
@@ -9,6 +9,16 @@ public class Oven : NetworkBehaviour
     private bool isCooking = false;
     private float cookingTimer;
     private Meal currentMeal;
+
+    private void OnEnable()
+    {
+        OvenManager.Instance.RegisterOven(this);
+    }
+
+    private void OnDisable()
+    {
+        OvenManager.Instance.UnregisterOven(this);
+    }
 
     public List<Meal> GetAvailableMeals()
     {
