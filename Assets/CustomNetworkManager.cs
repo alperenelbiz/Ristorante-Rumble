@@ -19,7 +19,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Determine the team based on the current number of players
         int teamId = NetworkServer.connections.Count % 2;
-        playerController.teamId = teamId;
+        //playerController.teamId = teamId;
 
         // Set the player's spawn position based on the team
         if (teamId == 0)
