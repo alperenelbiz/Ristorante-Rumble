@@ -92,9 +92,9 @@ public class Customer : MonoBehaviour
         Debug.Log("Chosen Meal: " + chosenMeal.name);
     }
 
-    public void ReceiveFood(Meal meal)
+    public void ReceiveFood(GameObject meal)
     {
-        if (meal == chosenMeal)
+        if (meal.name == chosenMeal.name)
         {
             StartCoroutine(EatAndLeave());
         }
