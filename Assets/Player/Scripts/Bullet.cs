@@ -10,18 +10,23 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, lifeTime); // Destroy the bullet after its lifetime expires
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collider)
     {
-        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-
-        if (playerHealth != null)
+        if (collider.gameObject.CompareTag("Player"))
         {
-            playerHealth.TakeDamage(damage);
-            Destroy(gameObject); // Destroy the bullet upon collision
-        }
+        PlayerHealth playerHealth = collider.gameObject.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+                Destroy(gameObject); // Destroy the bullet upon collision
+            }
+        
+
         else
         {
             Destroy(gameObject); // Destroy the bullet if it hits something else
+        }
         }
     }
 }
