@@ -8,20 +8,20 @@ public class Player : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (ManagerTeam.Instance == null)
+        if (TeamManager.Instance == null)
         {
             Debug.LogError("TeamManager instance is not found in Player.");
             return;
         }
 
-        ManagerTeam.Instance.AddPlayerToTeam(gameObject);
+        TeamManager.Instance.AddPlayerToTeam(gameObject);
     }
 
     private void OnDestroy()
     {
-        if (isServer && ManagerTeam.Instance != null)
+        if (isServer && TeamManager.Instance != null)
         {
-            ManagerTeam.Instance.RemovePlayerFromTeam(gameObject);
+            TeamManager.Instance.RemovePlayerFromTeam(gameObject);
         }
     }
 

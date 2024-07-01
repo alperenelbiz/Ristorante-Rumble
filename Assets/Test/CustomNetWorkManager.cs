@@ -1,7 +1,7 @@
 using UnityEngine;
 using Mirror;
 
-public class CustomNetManager : NetworkManager
+public class CustomNetWorkManager : NetworkManager
 {
     public Transform teamASpawn;
     public Transform teamBSpawn;
@@ -20,7 +20,7 @@ public class CustomNetManager : NetworkManager
             return;
         }
 
-        if (ManagerTeam.Instance == null)
+        if (TeamManager.Instance == null)
         {
             Debug.LogError("TeamManager instance is not found.");
             return;
@@ -29,7 +29,7 @@ public class CustomNetManager : NetworkManager
         GameObject player = Instantiate(playerPrefab);
 
         // Assign the player to a team and set the spawn position
-        if (ManagerTeam.Instance.teamA.Count <= ManagerTeam.Instance.teamB.Count)
+        if (TeamManager.Instance.teamA.Count <= TeamManager.Instance.teamB.Count)
         {
             player.transform.position = teamASpawn.position;
         }
