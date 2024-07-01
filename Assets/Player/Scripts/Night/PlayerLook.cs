@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLook : MonoBehaviour
+public class PlayerLook : NetworkBehaviour
 {
     [SerializeField] private float sensX = 100f;
     [SerializeField] private float sensY = 100f;
@@ -20,12 +21,21 @@ public class PlayerLook : MonoBehaviour
 
     private void Start()
     {
+        if (!isLocalPlayer)
+        {
+            cam.gameObject.SetActive(false);
+            this.enabled = false;
+            return;
+        }
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void Update()
     {
+        if (!isLocalPlayer) return;
+
         mouseX = Input.GetAxisRaw("Mouse X");
         mouseY = Input.GetAxisRaw("Mouse Y");
 

@@ -1,11 +1,14 @@
+using Mirror;
 using UnityEngine;
 
-public class Restaurant : MonoBehaviour
+public class Restaurant : NetworkBehaviour
 {
     public Chair[] chairs;
-    public float totalReputation = 50f; 
-    public int totalMoney;
-    public int totalIngredient=0;
+
+    [SyncVar] public float totalReputation = 50f;
+    [SyncVar] public int totalMoney;
+    [SyncVar] public int totalIngredient = 0;
+
     private static float winThreshold = 70f;
     private static float loseThreshold = 30f;
     private int ingredient;
@@ -35,36 +38,49 @@ public class Restaurant : MonoBehaviour
         return null;
     }
 
+    [Command]
     public void IncreaseReputation(float reputationIncrease)
     {
         totalReputation += reputationIncrease;
         if (totalReputation >= winThreshold)
         {
-            //kazanma kýsmý
-           
+            RpcWin();
         }
     }
 
+    [Command]
     public void DecreaseReputation(float reputationDecrease)
     {
         totalReputation -= reputationDecrease;
         if (totalReputation <= loseThreshold)
         {
-            //kaybetme kýsmý
-            
+            RpcLose();
         }
     }
 
+    [Command]
     public void IncreaseIngredient(int increaseIngredient)
     {
         totalIngredient += increaseIngredient;
-
-
     }
 
+    [Command]
     public void DecreaseIngredient(int decreaseIngredient)
     {
-        totalIngredient += decreaseIngredient;
+        totalIngredient -= decreaseIngredient;
+    }
 
+    [ClientRpc]
+    private void RpcWin()
+    {
+        // Handle winning logic
+        Debug.Log("Team wins!");
+    }
+
+    [ClientRpc]
+    private void RpcLose()
+    {
+        // Handle losing logic
+        Debug.Log("Team loses!");
     }
 }
