@@ -35,11 +35,11 @@ public class PlayerNightMovement : NetworkBehaviour
     [SerializeField] float groundDistance = 0.2f;
 
     [Header("Case Operations")]
-    [SyncVar] private int carryingMoney = 0;
+    //[SyncVar] private int carryingMoney = 0;
     private bool isStealing = false;
 
     [SerializeField] private float stealInterval = 0.5f;
-    [SerializeField] private int stealingAmount = 5;
+    //[SerializeField] private int stealingAmount = 5;
     public KeyCode stealKey = KeyCode.E;
     public KeyCode putKey = KeyCode.Q;
 

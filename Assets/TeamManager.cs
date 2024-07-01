@@ -62,7 +62,7 @@ public class TeamManager : NetworkBehaviour
             return;
         }
 
-        var playerComponent = player.GetComponent<Player>();
+        var playerComponent = player.GetComponent<PlayerNightMovement>();
         if (playerComponent == null)
         {
             Debug.LogError("Player component is not found on the player object.");

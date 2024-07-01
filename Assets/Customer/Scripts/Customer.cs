@@ -12,7 +12,7 @@ public class Customer : MonoBehaviour
     private bool hasOrdered = false;
     private bool isWaiting = false;
     private bool isLeaving = false;
-    private bool isEating = false;
+    public bool isEating = false;
     private float patience;
     [SerializeField] private float patienceTime = 10f; 
     private float waitStartTime;
