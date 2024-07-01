@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerNightMovement : MonoBehaviour
+public class PlayerNightMovement : NetworkBehaviour
 {
     [SerializeField] Transform orientation;
 
@@ -12,7 +12,6 @@ public class PlayerNightMovement : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce = 5f;
-
 
     [Header("Sprinting")]
     [SerializeField] float walkSpeed = 4f;
@@ -38,24 +37,32 @@ public class PlayerNightMovement : MonoBehaviour
 
     [HideInInspector] public bool isSprinting;
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        //Camera.main.SetActiv
         rb.freezeRotation = true;
     }
 
     private void Start()
     {
-        //if (!isLocalPlayer)
-          //  this.enabled = false;
+        if (!isLocalPlayer)
+        {
+            cam.gameObject.SetActive(false);
+            this.enabled = false;
+            return;
+        }
+
     }
 
     private void Update()
     {
+        if (!isLocalPlayer) return;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         MyInput();
-
         ControlSpeed();
 
         if (Input.GetKeyDown(jumpKey))
@@ -75,6 +82,7 @@ public class PlayerNightMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
         MovePlayer();
     }
 
