@@ -57,7 +57,7 @@ public class Customer : MonoBehaviour
             patience = patienceTime - (Time.time - waitStartTime);
             if (patience <= 0)
             {
-                rest.DecreaseReputation();
+                rest.DecreaseReputation(5);
                 Leave();
             }
         }
@@ -101,6 +101,7 @@ public class Customer : MonoBehaviour
         else
         {
             Debug.Log("Wrong meal! Customer is still waiting.");
+            Leave();
         }
     }
 
@@ -115,7 +116,7 @@ public class Customer : MonoBehaviour
         if (rest != null)
         {
             rest.totalMoney += chosenMeal.price;
-            rest.IncreaseReputation();
+            rest.IncreaseReputation(5);
         }
         Leave();
     }
