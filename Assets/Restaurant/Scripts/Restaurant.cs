@@ -5,10 +5,10 @@ public class Restaurant : MonoBehaviour
     public Chair[] chairs;
     public float totalReputation = 50f; 
     public int totalMoney;
-    public float reputationIncrease = 5f; 
-    public float reputationDecrease = 5f; 
-    public static float winThreshold = 70f;
-    public static float loseThreshold = 30f;
+    public int totalIngredient=0;
+    private static float winThreshold = 70f;
+    private static float loseThreshold = 30f;
+    private int ingredient;
 
     private void Start()
     {
@@ -35,7 +35,7 @@ public class Restaurant : MonoBehaviour
         return null;
     }
 
-    public void IncreaseReputation()
+    public void IncreaseReputation(float reputationIncrease)
     {
         totalReputation += reputationIncrease;
         if (totalReputation >= winThreshold)
@@ -45,7 +45,7 @@ public class Restaurant : MonoBehaviour
         }
     }
 
-    public void DecreaseReputation()
+    public void DecreaseReputation(float reputationDecrease)
     {
         totalReputation -= reputationDecrease;
         if (totalReputation <= loseThreshold)
@@ -53,5 +53,18 @@ public class Restaurant : MonoBehaviour
             //kaybetme kýsmý
             
         }
+    }
+
+    public void IncreaseIngredient(int increaseIngredient)
+    {
+        totalIngredient += increaseIngredient;
+
+
+    }
+
+    public void DecreaseIngredient(int decreaseIngredient)
+    {
+        totalIngredient += decreaseIngredient;
+
     }
 }
