@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerNightMovement : NetworkBehaviour
 {
+    [SyncVar]
+    public string team;
+
     [SerializeField] Transform orientation;
 
     [Header("Movement")]
@@ -31,52 +34,107 @@ public class PlayerNightMovement : NetworkBehaviour
     [SerializeField] LayerMask groundMask;
     [SerializeField] float groundDistance = 0.2f;
 
+    [Header("Case Operations")]
+    //[SyncVar] private int carryingMoney = 0;
+    private bool isStealing = false;
+
+    [SerializeField] private float stealInterval = 0.5f;
+    //[SerializeField] private int stealingAmount = 5;
+    public KeyCode stealKey = KeyCode.E;
+    public KeyCode putKey = KeyCode.Q;
+
     private Rigidbody rb;
     private bool isGrounded;
     Vector3 movement;
 
     [HideInInspector] public bool isSprinting;
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+
+        // Enable the local player's camera
+        cam.gameObject.SetActive(true);
+
+        // Optionally, you can lock the cursor here
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (!isLocalPlayer)
+        {
+            // Disable the camera for non-local players
+            cam.gameObject.SetActive(false);
+        }
+
+        // Add the player to the team
+        if (TeamManager.Instance != null)
+        {
+            TeamManager.Instance.AddPlayerToTeam(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (isServer && TeamManager.Instance != null)
+        {
+            TeamManager.Instance.RemovePlayerFromTeam(gameObject);
+        }
+    }
+
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //Camera.main.SetActiv
         rb.freezeRotation = true;
-    }
-
-    private void Start()
-    {
-        if (!isLocalPlayer)
-        {
-            cam.gameObject.SetActive(false);
-            this.enabled = false;
-            return;
-        }
-
     }
 
     private void Update()
     {
-        if (!isLocalPlayer) return;
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        MyInput();
-        ControlSpeed();
-
-        if (Input.GetKeyDown(jumpKey))
+        if (isLocalPlayer)
         {
-            Jump();
-        }
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isSprinting)
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, sprintFOV, 8f * Time.deltaTime);
-        }
-        else
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 90f, 8f * Time.deltaTime);
+            MyInput();
+            ControlSpeed();
+
+            if (Input.GetKeyDown(jumpKey))
+            {
+                Jump();
+            }
+
+            if (isSprinting)
+            {
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, sprintFOV, 8f * Time.deltaTime);
+            }
+            else
+            {
+                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 90f, 8f * Time.deltaTime);
+            }
+
+            /*if (Vector3.Distance(transform.position, caseTransform.position) < 2.0f && Input.GetKeyDown(stealKey))
+            {
+                isStealing = true;
+            }
+            else if (Input.GetKeyUp(stealKey))
+            {
+                isStealing = false;
+            }*/
+
+            if (isStealing)
+            {
+                StealAmountOverTime();
+            }
+
+            if (Input.GetKey(putKey))
+            {
+                PutMoney();
+            }
         }
     }
 
@@ -121,5 +179,21 @@ public class PlayerNightMovement : NetworkBehaviour
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
             isSprinting = false;
         }
+    }
+
+
+    [Command]
+    private void StealAmountOverTime()
+    {
+        if (Time.time % stealInterval < Time.deltaTime)
+        {
+           
+        }
+    }
+
+    [Command]
+    private void PutMoney()
+    {
+        
     }
 }

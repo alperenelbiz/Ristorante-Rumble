@@ -1,35 +1,81 @@
-using Mirror;
 using UnityEngine;
-
-public enum Team
-{
-    TeamA,
-    TeamB
-}
+using Mirror;
+using System.Collections.Generic;
 
 public class TeamManager : NetworkBehaviour
 {
-    [SyncVar] public Team team;
+    public static TeamManager Instance;
 
-    public Restaurant teamARestaurant;
-    public Restaurant teamBRestaurant;
+    public List<GameObject> teamA = new List<GameObject>();
+    public List<GameObject> teamB = new List<GameObject>();
 
-    private void Start()
+    private void Awake()
     {
-        if (isServer)
+        if (Instance == null)
         {
-            AssignTeam();
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void AssignTeam()
+    public void AddPlayerToTeam(GameObject player)
     {
-        // Example team assignment logic, you might want to change this
-        team = NetworkServer.connections.Count % 2 == 0 ? Team.TeamA : Team.TeamB;
+        if (teamA == null || teamB == null)
+        {
+            Debug.LogError("Team lists are not initialized.");
+            return;
+        }
+
+        if (player == null)
+        {
+            Debug.LogError("Player is null in AddPlayerToTeam.");
+            return;
+        }
+
+        var playerComponent = player.GetComponent<PlayerNightMovement>();
+        if (playerComponent == null)
+        {
+            Debug.LogError("Player component is not found on the player object.");
+            return;
+        }
+
+        if (teamA.Count <= teamB.Count)
+        {
+            teamA.Add(player);
+            playerComponent.team = "A";
+        }
+        else
+        {
+            teamB.Add(player);
+            playerComponent.team = "B";
+        }
     }
 
-    public Restaurant GetTeamRestaurant()
+    public void RemovePlayerFromTeam(GameObject player)
     {
-        return team == Team.TeamA ? teamARestaurant : teamBRestaurant;
+        if (player == null)
+        {
+            Debug.LogError("Player is null in RemovePlayerFromTeam.");
+            return;
+        }
+
+        var playerComponent = player.GetComponent<PlayerNightMovement>();
+        if (playerComponent == null)
+        {
+            Debug.LogError("Player component is not found on the player object.");
+            return;
+        }
+
+        if (playerComponent.team == "A")
+        {
+            teamA.Remove(player);
+        }
+        else if (playerComponent.team == "B")
+        {
+            teamB.Remove(player);
+        }
     }
 }
