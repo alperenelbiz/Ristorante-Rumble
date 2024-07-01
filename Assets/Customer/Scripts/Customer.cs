@@ -14,7 +14,7 @@ public class Customer : MonoBehaviour
     private bool isLeaving = false;
     private bool isEating = false;
     private float patience;
-    private float patienceTime = 10f; 
+    [SerializeField] private float patienceTime = 10f; 
     private float waitStartTime;
     private float eatingTime = 5f; 
     private float destroyDelay = 5f;
