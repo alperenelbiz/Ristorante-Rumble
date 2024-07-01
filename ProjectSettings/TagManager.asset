@@ -11,6 +11,8 @@ TagManager:
   - Case
   - Ingredient
   - Freezer
+  - Chair
+  - Customer
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
