@@ -220,11 +220,9 @@ MonoBehaviour:
   holdPosition: {fileID: 5908370733455203627}
   itemPlacePairs:
   - itemTag: Meal
-    placeTag: Customer
+    placeTag: Table
   - itemTag: Money
     placeTag: Case
-  - itemTag: Ingredient
-    placeTag: Freezer
   - itemTag: Ingredient
     placeTag: Freezer
   highlightMaterial: {fileID: 2100000, guid: ac0fd9bdcd973854cbb89ae466f10411, type: 2}

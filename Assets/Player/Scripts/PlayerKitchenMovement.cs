@@ -17,7 +17,6 @@ public class PlayerKitchenMovement : NetworkBehaviour
     [SerializeField] private List<ItemPlacePair> itemPlacePairs;
     [SerializeField] private Material highlightMaterial;
 
-    private Customer customer;
     private Rigidbody rb;
     private Vector3 input;
     private GameObject heldItem;
@@ -115,12 +114,6 @@ public class PlayerKitchenMovement : NetworkBehaviour
                 if (heldItem != null && heldItem.CompareTag(pair.itemTag) && hit.collider.CompareTag(pair.placeTag))
                 {
                     RpcPlaceItem(hit.collider.gameObject);
-
-                    if (pair.itemTag == "Meal" && pair.placeTag == "Customer")
-                    {
-                        customer.ReceiveFood(heldItem);
-                    }
-
                     break;
                 }
             }
