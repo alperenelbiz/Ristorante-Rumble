@@ -420,11 +420,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c6ad349400c51438691dac52ca48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   bulletSpawn: {fileID: 6933987093235004120}
   bulletPrefab: {fileID: 3994065694571486232, guid: 7994b972248ae31418643ea052413606, type: 3}
   bulletSpeed: 20
   maxAmmo: 10
   reloadTime: 2
+  fireKey: 323
 --- !u!114 &4061113929278139811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,6 +441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dea627844a313045b0f5f65a2129cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHealth: 100
 --- !u!1001 &397362883194461285
 PrefabInstance:
@@ -515,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7330118471827680957, guid: d90d0352118b55a4fbab63efc7d5dc9d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0.616
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d90d0352118b55a4fbab63efc7d5dc9d, type: 3}

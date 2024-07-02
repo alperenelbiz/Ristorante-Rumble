@@ -1,7 +1,7 @@
 using UnityEngine;
 using Mirror;
 
-public class CustomNetWorkManager : NetworkManager
+public class CustomNetworkManager : NetworkManager
 {
     public Transform teamASpawn;
     public Transform teamBSpawn;
@@ -27,17 +27,32 @@ public class CustomNetWorkManager : NetworkManager
         }
 
         GameObject player = Instantiate(playerPrefab);
+        NetworkServer.AddPlayerForConnection(conn, player);
+        TeamManager.Instance.AddPlayerToTeam(player);
+    }
 
-        // Assign the player to a team and set the spawn position
-        if (TeamManager.Instance.teamA.Count <= TeamManager.Instance.teamB.Count)
+    [Server]
+    public void RespawnPlayer(NetworkConnectionToClient conn, string assetId)
+    {
+        GameObject newPlayer = Instantiate(playerPrefab);
+        AssignPlayerToTeam(newPlayer);
+
+        // Add player to connection
+        NetworkServer.ReplacePlayerForConnection(conn, newPlayer);
+    }
+
+    private void AssignPlayerToTeam(GameObject player)
+    {
+        PlayerNightMovement playerMovement = player.GetComponent<PlayerNightMovement>();
+        if (playerMovement.team == "A")
         {
             player.transform.position = teamASpawn.position;
         }
-        else
+        else if (playerMovement.team == "B")
         {
             player.transform.position = teamBSpawn.position;
         }
 
-        NetworkServer.AddPlayerForConnection(conn, player);
+        TeamManager.Instance.AddPlayerToTeam(player);
     }
 }

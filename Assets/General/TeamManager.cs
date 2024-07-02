@@ -9,6 +9,9 @@ public class TeamManager : NetworkBehaviour
     public List<GameObject> teamA = new List<GameObject>();
     public List<GameObject> teamB = new List<GameObject>();
 
+    public Transform teamASpawn;
+    public Transform teamBSpawn;
+
     private void Awake()
     {
         if (Instance == null)
@@ -77,5 +80,20 @@ public class TeamManager : NetworkBehaviour
         {
             teamB.Remove(player);
         }
+    }
+
+    public Transform GetSpawnPoint(string team)
+    {
+        if (team == "A")
+        {
+            return teamASpawn;
+        }
+        else if (team == "B")
+        {
+            return teamBSpawn;
+        }
+
+        Debug.LogError("Unknown team: " + team);
+        return null;
     }
 }
