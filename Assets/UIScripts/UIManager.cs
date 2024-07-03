@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,11 +14,29 @@ public class UIManager : MonoBehaviour
   
     private Oven currentOven;
 
+    public GameObject inGameMenuPanel;
+    public Button settingsButton;
+    public Button exitButton;
+
+    private bool isMenuActive = false;
+
+    void Start()
+    {
+        settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+        exitButton.onClick.AddListener(OnExitButtonClicked);
+        inGameMenuPanel.SetActive(false);
+    }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             OpenOvenMenu();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isMenuActive = !isMenuActive;
+            inGameMenuPanel.SetActive(isMenuActive);
+            Time.timeScale = isMenuActive ? 0 : 1; // Pause the game when the menu is active
         }
     }
 
@@ -76,5 +95,14 @@ public class UIManager : MonoBehaviour
             currentOven.StartCooking(meal);
             CloseOvenMenu();
         }
+    }
+    void OnSettingsButtonClicked()
+    {
+        SceneManager.LoadScene("Test"); 
+    }
+
+    void OnExitButtonClicked()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
