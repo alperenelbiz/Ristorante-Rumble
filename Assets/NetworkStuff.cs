@@ -5,7 +5,9 @@ using Mirror;
 
 public class NetworkStuff : NetworkBehaviour
 {
-   [SerializeField] private GameObject playerCamera = null, playerMesh = null;
+   [SerializeField] private GameObject playerCamera = null
+        //,playerMesh = null
+        ;
 
     private void Start()
     {

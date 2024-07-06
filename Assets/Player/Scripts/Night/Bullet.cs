@@ -35,7 +35,7 @@ public class Bullet : NetworkBehaviour
 
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(damage);
+                //playerHealth.TakeDamage(damage);
                 Destroy(gameObject); // Destroy the bullet upon collision
             }
         }

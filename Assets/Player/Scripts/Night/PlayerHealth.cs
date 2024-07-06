@@ -2,55 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerHealth : NetworkBehaviour
 {
-    public float maxHealth = 100f;
-    private float currentHealth;
-    private CustomNetworkManager networkManager;
+    [SyncVar(hook = nameof(HealthValueChanged))] private float healtValue = 100f;
+    [SerializeField] private TMP_Text healthText = null;
+    [SerializeField] private Slider healthBar = null;
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        networkManager = NetworkManager.singleton as CustomNetworkManager;
+        if (!isLocalPlayer) { return; }
+
+        healthText.text = healtValue.ToString();
+        healthBar.value = healtValue;
     }
 
     [Server]
-    public void TakeDamage(float amount)
+    public void GetDamage(float damage_)
     {
-        currentHealth -= amount;
-        Debug.Log("Player Health: " + currentHealth);
+        healtValue = Mathf.Max(0f,healtValue -= damage_);
+    }
 
-        if (currentHealth <= 0f)
+    private void HealthValueChanged(float oldHealth, float newHealth)
+    {
+        healthText.text = healtValue.ToString();
+        healthBar.value = healtValue;
+
+        if (newHealth <= 0)
         {
-            Die();
+            print("Die");
         }
-    }
-
-    [Server]
-    void Die()
-    {
-        Debug.Log("Player has died!");
-        RpcOnDeath(); // Notify the client that the player has died
-        currentHealth = maxHealth; // Reset health
-        StartCoroutine(Respawn());
-    }
-
-    [ClientRpc]
-    void RpcOnDeath()
-    {
-        // Add any client-side death effects here, e.g., play sound, show UI
-    }
-
-    [Server]
-    private IEnumerator Respawn()
-    {
-        NetworkIdentity identity = GetComponent<NetworkIdentity>();
-        NetworkConnectionToClient conn = identity.connectionToClient;
-
-        yield return new WaitForSeconds(5); // 5 seconds respawn time
-
-        TeamManager.Instance.RemovePlayerFromTeam(gameObject);
-        networkManager.RespawnPlayer(conn, identity.assetId.ToString());
     }
 }
