@@ -10,17 +10,22 @@ public class FireScript : NetworkBehaviour
     private float lastShootTime = 0f;
     private float waitForSecondsBetweenShoots = 0.2f;
 
+    [SerializeField] private GameObject damageTextParent = null;
     private void Update()
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
             if (lastShootTime == 0 || lastShootTime + waitForSecondsBetweenShoots < Time.time)
             {
-                lastShootTime += Time.time;
+                lastShootTime = Time.time;
                 if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, playerMask))
                 {
                     if (hit.collider.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealthScript))
                     {
+                        if (playerHealthScript.GetHealth() <= 0f) { return; }
+
+                        GameObject newDamageTextParent = Instantiate(damageTextParent, hit.point, Quaternion.identity);
+                        newDamageTextParent.GetComponentInChildren<DamageTextScript>().GetCalled(25, playerCamera);
                         if (isServer)
                         {
                             ServerHit(25, playerHealthScript);

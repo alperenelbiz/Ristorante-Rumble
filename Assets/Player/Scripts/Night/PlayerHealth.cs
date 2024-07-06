@@ -22,7 +22,7 @@ public class PlayerHealth : NetworkBehaviour
     [Server]
     public void GetDamage(float damage_)
     {
-        healtValue = Mathf.Max(0f,healtValue -= damage_);
+        healtValue = Mathf.Max(0f, healtValue -= damage_);
     }
 
     private void HealthValueChanged(float oldHealth, float newHealth)
@@ -34,5 +34,10 @@ public class PlayerHealth : NetworkBehaviour
         {
             print("Die");
         }
+    }
+
+    public float GetHealth()
+    {
+        return healtValue;
     }
 }
