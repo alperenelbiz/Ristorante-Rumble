@@ -696,6 +696,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   damageTextParent: {fileID: 7315707099565662225, guid: 0491b076081495d4baac4bb32015570a, type: 3}
+  playerHealthScript: {fileID: 1338461961978512520}
 --- !u!1 &1433950590978035271
 GameObject:
   m_ObjectHideFlags: 0

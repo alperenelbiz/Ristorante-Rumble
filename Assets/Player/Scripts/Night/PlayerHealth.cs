@@ -15,13 +15,32 @@ public class PlayerHealth : NetworkBehaviour
     [SerializeField] private NightMovement movementScript = null;
     [SerializeField] private CharacterController characterController = null;
 
+    private Vector3 startPosition;
 
     private void Start()
     {
         if (!isLocalPlayer) { return; }
 
+        startPosition = transform.position;
         healthText.text = healtValue.ToString();
         healthBar.value = healtValue;
+    }
+
+    public void NewRoundCall()
+    {
+        CmdMaxHealth();
+    }
+
+    [Command]
+    private void CmdMaxHealth()
+    {
+        ServerMaxHealth();
+    }
+
+    [Server]
+    private void ServerMaxHealth()
+    {
+        healtValue = 100;
     }
 
     [Server]
@@ -41,9 +60,24 @@ public class PlayerHealth : NetworkBehaviour
             deathCamera.SetActive(true);
             playerCamera.SetActive(false);
             playerModelMesh.SetActive(true);
-            movementScript.enabled = false;
-            characterController.enabled = false;
+
+            Invoke(nameof(BeginNewRound), 5f);
         }
+    }
+
+    public void BeginNewRound()
+    {
+        NewRoundCall();
+
+        movementScript.enabled = false;
+        characterController.enabled = false;
+
+        transform.position = startPosition;
+        playerCamera.SetActive(true);
+        deathCamera.SetActive(false);
+        playerModelMesh.SetActive(false);
+        movementScript.enabled = true;
+        characterController.enabled = true;
     }
 
     public float GetHealth()

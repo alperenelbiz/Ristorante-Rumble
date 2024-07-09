@@ -11,6 +11,8 @@ public class FireScript : NetworkBehaviour
     private float waitForSecondsBetweenShoots = 0.2f;
 
     [SerializeField] private GameObject damageTextParent = null;
+    [SerializeField] private PlayerHealth playerHealthScript;
+
     private void Update()
     {
         if (!isLocalPlayer) { return; }
@@ -24,6 +26,7 @@ public class FireScript : NetworkBehaviour
                 {
                     if (hit.collider.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealthScript))
                     {
+                        if (playerHealthScript.GetHealth() - 25 <= 0) { RoundOver(); }
                         if (playerHealthScript.GetHealth() <= 0f) { return; }
 
                         GameObject newDamageTextParent = Instantiate(damageTextParent, hit.point, Quaternion.identity);
@@ -51,5 +54,15 @@ public class FireScript : NetworkBehaviour
     private void ServerHit(float damage, PlayerHealth playerHealthScript)
     {
         playerHealthScript.GetDamage(damage);
+    }
+
+    private void RoundOver()
+    {
+        Invoke(nameof(BeginNewRound), 5f);
+    }
+
+    private void BeginNewRound()
+    {
+        playerHealthScript.BeginNewRound();
     }
 }
