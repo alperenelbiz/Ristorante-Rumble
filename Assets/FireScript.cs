@@ -32,9 +32,9 @@ public class FireScript : NetworkBehaviour
                     {
                         if (playerHealthScript.GetHealth() - 25 <= 0)
                         {
-                            DeathPanel.SetActive(true);
-                            winnerText.text = "You Won!";
-                            RoundOver();
+                            //DeathPanel.SetActive(true);
+                            //winnerText.text = "You Won!";
+                            //RoundOver();
                         }
 
                         if (playerHealthScript.GetHealth() <= 0f) { return; }
