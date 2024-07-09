@@ -14,8 +14,8 @@ public class FireScript : NetworkBehaviour
     [SerializeField] private GameObject damageTextParent = null;
     [SerializeField] private PlayerHealth playerHealthScript;
 
-    [SerializeField] private GameObject DeathPanel = null;
-    [SerializeField] private TMP_Text winnerText = null;
+    //[SerializeField] private GameObject DeathPanel = null;
+    //[SerializeField] private TMP_Text winnerText = null;
 
     private void Update()
     {
