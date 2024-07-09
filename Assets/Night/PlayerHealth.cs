@@ -14,6 +14,7 @@ public class PlayerHealth : NetworkBehaviour
     [SerializeField] private GameObject playerCamera = null, deathCamera = null, playerModelMesh = null;
     [SerializeField] private NightMovement movementScript = null;
     [SerializeField] private CharacterController characterController = null;
+    [SerializeField] private FireScript fireScript= null;
     private Vector3 startPosition;
 
     [SerializeField] private GameObject DeathPanel = null;
@@ -61,6 +62,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             movementScript.enabled = false;
             characterController.enabled = false;
+            fireScript.enabled = false;
             DeathPanel.SetActive(true);
             winnerText.text = "You Lost!";
             deathCamera.SetActive(true);
@@ -73,6 +75,7 @@ public class PlayerHealth : NetworkBehaviour
 
     public void BeginNewRound()
     {
+        fireScript.enabled = true;
         DeathPanel.SetActive(false );
         NewRoundCall();
 
