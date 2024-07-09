@@ -13,6 +13,8 @@ public class FireScript : NetworkBehaviour
     [SerializeField] private GameObject damageTextParent = null;
     private void Update()
     {
+        if (!isLocalPlayer) { return; }
+
         if (Input.GetKey(KeyCode.Mouse0))
         {
             if (lastShootTime == 0 || lastShootTime + waitForSecondsBetweenShoots < Time.time)

@@ -456,6 +456,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 133240681272235429}
   - {fileID: 1775614213014007916}
   - {fileID: 7998709422918275461}
   - {fileID: 3277259360688931997}
@@ -670,6 +671,11 @@ MonoBehaviour:
   syncInterval: 0
   healthText: {fileID: 9100236427723500199}
   healthBar: {fileID: 5769107097048458731}
+  playerCamera: {fileID: 4215602124668845110}
+  deathCamera: {fileID: 5506721737575158315}
+  playerModelMesh: {fileID: 2751974983663115815}
+  movementScript: {fileID: 3327324360659317252}
+  characterController: {fileID: 1869077159800332493}
 --- !u!114 &7082334409200293448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,7 +1152,7 @@ Transform:
   - {fileID: 227878757527501723}
   - {fileID: 7001822858506560521}
   m_Father: {fileID: 2165536899081489721}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8906720190755888871
 Animator:
@@ -1939,7 +1945,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2165536899081489721}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4063621514816001179
 GameObject:
@@ -2023,7 +2029,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1775614213014007916
 Transform:
   m_ObjectHideFlags: 0
@@ -2039,7 +2045,7 @@ Transform:
   - {fileID: 7150879389142280611}
   - {fileID: 3743742363174054967}
   m_Father: {fileID: 2165536899081489721}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2663630728925066157
 Camera:
@@ -2793,6 +2799,90 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0000077188015, y: -0.4736871, z: 0.016465679}
     m_Extent: {x: 0.83870554, y: 0.89866906, z: 0.17188415}
   m_DirtyAABB: 0
+--- !u!1 &5506721737575158315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 133240681272235429}
+  - component: {fileID: 456239318335286869}
+  - component: {fileID: 7930570180249033238}
+  m_Layer: 0
+  m_Name: DeathCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &133240681272235429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506721737575158315}
+  m_LocalRotation: {x: 0.34414318, y: -0, z: -0, w: 0.9389172}
+  m_LocalPosition: {x: 0, y: 1.99, z: -1.96}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2165536899081489721}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 40.259, y: 0, z: 0}
+--- !u!20 &456239318335286869
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506721737575158315}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &7930570180249033238
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506721737575158315}
+  m_Enabled: 1
 --- !u!1 &5530919660844975830
 GameObject:
   m_ObjectHideFlags: 0
@@ -3782,7 +3872,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.44, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
