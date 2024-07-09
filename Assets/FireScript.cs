@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 public class FireScript : NetworkBehaviour
 {
@@ -12,6 +13,9 @@ public class FireScript : NetworkBehaviour
 
     [SerializeField] private GameObject damageTextParent = null;
     [SerializeField] private PlayerHealth playerHealthScript;
+
+    [SerializeField] private GameObject DeathPanel = null;
+    [SerializeField] private TMP_Text winnerText = null;
 
     private void Update()
     {
@@ -26,7 +30,13 @@ public class FireScript : NetworkBehaviour
                 {
                     if (hit.collider.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealthScript))
                     {
-                        if (playerHealthScript.GetHealth() - 25 <= 0) { RoundOver(); }
+                        if (playerHealthScript.GetHealth() - 25 <= 0)
+                        {
+                            DeathPanel.SetActive(true);
+                            winnerText.text = "You Won!";
+                            RoundOver();
+                        }
+
                         if (playerHealthScript.GetHealth() <= 0f) { return; }
 
                         GameObject newDamageTextParent = Instantiate(damageTextParent, hit.point, Quaternion.identity);

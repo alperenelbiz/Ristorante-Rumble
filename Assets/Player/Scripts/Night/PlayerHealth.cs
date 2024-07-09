@@ -14,8 +14,10 @@ public class PlayerHealth : NetworkBehaviour
     [SerializeField] private GameObject playerCamera = null, deathCamera = null, playerModelMesh = null;
     [SerializeField] private NightMovement movementScript = null;
     [SerializeField] private CharacterController characterController = null;
-
     private Vector3 startPosition;
+
+    [SerializeField] private GameObject DeathPanel = null;
+    [SerializeField] private TMP_Text winnerText = null;
 
     private void Start()
     {
@@ -57,6 +59,10 @@ public class PlayerHealth : NetworkBehaviour
 
         if (newHealth <= 0)
         {
+            movementScript.enabled = false;
+            characterController.enabled = false;
+            DeathPanel.SetActive(true);
+            winnerText.text = "You Lost!";
             deathCamera.SetActive(true);
             playerCamera.SetActive(false);
             playerModelMesh.SetActive(true);
@@ -67,6 +73,7 @@ public class PlayerHealth : NetworkBehaviour
 
     public void BeginNewRound()
     {
+        DeathPanel.SetActive(false );
         NewRoundCall();
 
         movementScript.enabled = false;
